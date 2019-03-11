@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>ISA Chart</title>
+  <link rel="stylesheet" type="text/css" href="bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+  <script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+  <div class="container main-container">
+    <div class="col-md-12 text-center" style="margin: 40px 0 40px 0;">
+      <h1>ISA Picker</h1>
+      <p>In the UK, the Government allows any individual with a right to work in the UK the option to save/invest &pound;20,000 a year in a tax free account called an ISA (individual savings account). ISAs are offered by many companies and come in many forms with different rules. This questionanire and table give you suggestions on which type of ISA is best for you.
+    </div>
+    <div class="col-md-12" style="margin-bottom: 40px;">
+      <form>
+        <div class="form-group">
+          <label for="inputAge">How old are you?</label>
+          <input type="number" class="form-control" id="inputAge" placeholder="Age">
+        </div>
+        <div class="form-group">
+          <label for="inputHouse">Do you own a home?</label>
+          <select class="form-control" id="inputHouse">
+             <option>Yes</option>
+             <option>No</option>
+           </select>
+        </div>
+        <div class="form-group" id="inputHouseDistanceWrapper">
+          <label for="inputHouseDistance">Would you like to buy a house in the next 5 years?</label>
+          <select class="form-control" id="inputHouseDistance">
+             <option>Yes</option>
+             <option>No</option>
+           </select>
+        </div>
+        <button type="button" id="suggestion" style="width: 100%" class="btn btn-info">Make a Suggestion!</button>
+      </form>
+    </div>
+    <div class="col-md-12">
+      <table class="table borderless">
+        <tr>
+          <th></th>
+          <th colspan="3" class="text-center heading">Asset Type</th>
+        </tr>
+        <tr>
+          <th></th>
+          <th style="width: 20%" class="heading">Stocks and Shares</th>
+          <th style="width: 20%" class="heading">Cash</th>
+          <th style="width: 20%" class="heading">Innovative Finance</th>
+        </tr>
+
+        <tr>
+          <th class="siding">Stocks and Shares ISA</th>
+          <td class="asset-stocks type-stocks"><i class="fas fa-check-circle"></i></td>
+          <td class="asset-cash type-stocks"><i class="fas fa-check-circle"></i></td>
+          <td class="asset-other type-stocks"><i class="fas fa-times-circle"></i></td>
+        </tr>
+        <tr>
+          <th class="siding">Cash ISA</th>
+          <td class="asset-stocks type-cash"><i class="fas fa-times-circle"></i></td>
+          <td class="asset-cash type-cash"><i class="fas fa-check-circle"></i></td>
+          <td class="asset-other type-cash"><i class="fas fa-times-circle"></i></td>
+        </tr>
+        <tr id="lifetime">
+          <th class="siding">Lifetime ISA</th>
+          <td class="asset-stocks type-lifetime"><i class="fas fa-check-circle"></i></td>
+          <td class="asset-cash type-lifetime"><i class="fas fa-check-circle"></i></td>
+          <td class="asset-other type-lifetime"><i class="fas fa-times-circle"></i></td>
+        </tr>
+        <tr id="help-to-buy">
+          <th class="siding">Help to Buy ISA</th>
+          <td class="asset-stocks type-help"><i class="fas fa-times-circle"></i></td>
+          <td class="asset-cash type-help"><i class="fas fa-check-circle"></i></td>
+          <td class="asset-other type-help"><i class="fas fa-times-circle"></i></td>
+        </tr>
+        <tr>
+          <th class="siding">Innovative Finance ISA</th>
+          <td class="asset-stocks type-innovative"><i class="fas fa-times-circle"></i></td>
+          <td class="asset-cash type-innovative"><i class="fas fa-times-circle"></i></td>
+          <td class="asset-other type-innovative"><i class="fas fa-check-circle"></i></td>
+        </tr>
+      </table>
+      <div id="recommend" class="card text-white bg-info">
+        <div class="card-header">Recomendation</div>
+        <div class="card-body">
+          <h4 class="card-title" id="recommend-title"></h4>
+          <p class="card-text" id="recommend-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+  $("#inputHouseDistanceWrapper").hide()
+  $("#recommend").hide()
+
+
+  $("#suggestion").click(function() {
+    $(".type-stocks").removeClass("disabled").removeClass("recommend")
+    $(".type-cash").removeClass("disabled").removeClass("recommend")
+    $(".type-lifetime").removeClass("disabled").removeClass("recommend")
+    $(".type-help").removeClass("disabled").removeClass("recommend")
+    $(".type-innovative").removeClass("disabled").removeClass("recommend")
+    $(".asset-stocks").removeClass("disabled").removeClass("recommend")
+    $(".asset-cash").removeClass("disabled").removeClass("recommend")
+    $(".asset-other").removeClass("disabled").removeClass("recommend")
+    $("#recommend").hide()
+
+    var age = $("#inputAge").val()
+    var home = $("#inputHouse").val()
+    var homeDistance = $("#inputHouseDistance").val()
+
+    // If over 40 you don't qualify for a lifetime ISA
+    if(age > 40) {
+      $(".type-lifetime").addClass("disabled")
+    }
+    // If you own a home you can't / shouldn't use these products
+    if(home == "Yes") {
+      $(".type-lifetime").addClass("disabled")
+      $(".type-help").addClass("disabled")
+      recommend(".type-stocks.asset-stocks", "Stocks &amp; Shares ISA", "You already own a home. You should be saving for retirement, paying down your house and maintaing an emergency fund in a non ISA account. This means you can spend your whole ISA allowance in a stocks and shares ISA.")
+    } else {
+      if (age > 40) {
+        recommend(".asset-cash.type-help", "Help to Buy ISA", "You don't own a home yet but you are over 40 so don't qualify for the lifetime ISA. You should first max out your help to buy ISA which gives you a 25% government bonus up to &pound;3,000. Once you have done that you can put the rest of your savings in a cash ISA.")
+      } else {
+        if (homeDistance == "Yes") {
+          $(".asset-stocks").addClass("disabled")
+          recommend(".asset-cash.type-lifetime", "Lifetime ISA (Cash)", "You don't own a home yet and are under 40 so you are eligible for a Lifetime ISA. You would like to buy a home in the next 5 years so you should keep your savings in cash.")
+        } else {
+          recommend(".asset-stocks.type-lifetime", "Lifetime ISA (Stocks &amp; Shares)", "You don't own a home yet and are under 40 so you are eligible for a Lifetime ISA. You aren't planning on buying a home in the next 5 years so it is worth taking the extra risk investing the money in low cost index tracking funds. Any money beyond the lifetime ISA limit of &pound;3,000 should be placed in a Stocks &amp; Shares ISA")
+        }
+      }
+    }
+    console.log("I'm Alive")
+  });
+
+  function recommend(type, title, reason) {
+    $(type).addClass("recommend")
+    $("#recommend-title").html(title)
+    $("#recommend-text").html(reason)
+    $("#recommend").show()
+  }
+
+  $("#inputHouse").change(function() {
+    if ($(this).val() == "Yes") {
+      $("#inputHouseDistanceWrapper").hide()
+    } else {
+      $("#inputHouseDistanceWrapper").show()
+    }
+  });
+  $("#inputHouse").change()
+  </script>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-45389877-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-45389877-6');
+</script>
+
+</body>
+</html>

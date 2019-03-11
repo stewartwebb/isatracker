@@ -1,0 +1,31 @@
+.fa-check-circle {
+  color: #27ae60;
+}
+.fa-times-circle {
+  color: #c0392b;
+}
+
+.borderless td, .borderless th {
+    border: none;
+    text-align: center;
+}
+.borderless td:hover {
+  background: #eee;
+  cursor: pointer;
+}
+.heading {
+  background: #eee;
+  color: #363636;
+}
+.siding {
+  background: #eee;
+  color: #363636;
+}
+.disabled, td.disabled:hover {
+  background: #95a5a6;
+  color: #7f8c8d;
+  cursor: auto;
+}
+.recommend {
+  background: #f1c40f;
+}
