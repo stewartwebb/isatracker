@@ -10,6 +10,8 @@
   <link rel="stylesheet" type="text/css" href="style.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
   <script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript" src="fast.js"></script>
+
 </head>
 <body>
   <div class="container main-container">
@@ -94,6 +96,10 @@
     </div>
   </div>
   <script type="text/javascript">
+  $(function() {
+  	FastClick.attach(document.body);
+  });
+
   $("#inputHouseDistanceWrapper").hide()
   $("#recommend").hide()
 
