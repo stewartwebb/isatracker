@@ -15,7 +15,7 @@
   <div class="container main-container">
     <div class="col-md-12 text-center" style="margin: 40px 0 40px 0;">
       <h1>ISA Picker</h1>
-      <p>In the UK, the Government allows any individual with a right to work in the UK the option to save/invest &pound;20,000 a year in a tax free account called an ISA (individual savings account). ISAs are offered by many companies and come in many forms with different rules. This questionanire and table give you suggestions on which type of ISA is best for you.
+      <p>In the UK, the Government allows any individual living in the UK the option to save/invest &pound;20,000 a year in a tax free account called an ISA (individual savings account). ISAs are offered by many companies and come in many forms with different rules. This questionanire and table give you suggestions on which type of ISA is best for you.
     </div>
     <div class="col-md-12" style="margin-bottom: 40px;">
       <form>
@@ -98,7 +98,7 @@
   $("#recommend").hide()
 
 
-  $("#suggestion").click(function() {
+  $("#suggestion").on('click touchstart', function() {
     $(".type-stocks").removeClass("disabled").removeClass("recommend")
     $(".type-cash").removeClass("disabled").removeClass("recommend")
     $(".type-lifetime").removeClass("disabled").removeClass("recommend")
@@ -112,6 +112,25 @@
     var age = $("#inputAge").val()
     var home = $("#inputHouse").val()
     var homeDistance = $("#inputHouseDistance").val()
+
+    if (age < 16) {
+      $(".asset-stocks").addClass("disabled")
+      $(".asset-cash").addClass("disabled")
+      $(".asset-other").addClass("disabled")
+      recommend("", "Child Savings / Junior ISA", "You are under 16 so you can't open an ISA yourself. With the help of a parent you can open a non-isa child savings account or a Junior ISA.")
+      return
+    }
+    if (age >= 16 && age < 18) {
+      $(".asset-stocks").addClass("disabled")
+      $(".asset-other").addClass("disabled")
+      $(".type-stocks").addClass("disabled")
+      $(".type-lifetime").addClass("disabled")
+      $(".type-help").addClass("disabled")
+      $(".type-innovative").addClass("disabled")
+
+      recommend(".type-cash.asset-cash", "Cash ISA", "You are under 18 so you can only open a Cash ISA")
+      return
+    }
 
     // If over 40 you don't qualify for a lifetime ISA
     if(age > 40) {
